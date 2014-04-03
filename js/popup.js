@@ -116,25 +116,44 @@ document.addEventListener('DOMContentLoaded', function () {
 				data.faucets = new Array();
 			}
 			var form = document.getElementsByClassName('manageFaucet')[0];
-			data.faucets.push({
-				wallet:			form.faucetWallet.value,
-				last:			new Date().getTime(),
-				next:			new Date().getTime()+form.faucetRefillTimeHours.value*3600000+form.faucetRefillTimeMinuts.value*60000,
-				enabled:		true,
-				uses:			0,
-				url:			form.faucetUrl.value,
-				matchUrl:		form.faucetMatchUrl.value,
-				refillTime:
-				{
-					hours:		form.faucetRefillTimeHours.value,
-					minuts:		form.faucetRefillTimeMinuts.value
-				},
-				enableDonation:	form.faucetEnableDonation.value,
-				quickAccess:	form.faucetQuickAccess.value,
-				input:		form.faucetInput.value,
-				successUrl:		form.faucetSuccessUrl.value,
-				successMessage:	form.faucetSuccessMessage.value
-			});
+			if(getComputedStyle(form.getElementsByClassName('edit')[0]).display=='none')
+			{
+				data.faucets.push({
+					wallet:			form.faucetWallet.value,
+					last:			new Date().getTime(),
+					next:			new Date().getTime()+form.faucetRefillTimeHours.value*3600000+form.faucetRefillTimeMinuts.value*60000,
+					enabled:		true,
+					uses:			0,
+					url:			form.faucetUrl.value,
+					matchUrl:		form.faucetMatchUrl.value,
+					refillTime:
+					{
+						hours:		form.faucetRefillTimeHours.value,
+						minuts:		form.faucetRefillTimeMinuts.value
+					},
+					enableDonation:	form.faucetEnableDonation.value,
+					quickAccess:	form.faucetQuickAccess.value,
+					input:		form.faucetInput.value,
+					successUrl:		form.faucetSuccessUrl.value,
+					successMessage:	form.faucetSuccessMessage.value
+				});
+			}
+			else
+			{	
+				var id = form.faucetEdit.value;
+				data.faucets[id].wallet = form.faucetWallet.value;
+				data.faucets[id].next = data.faucets[id].last+form.faucetRefillTimeHours.value*3600000+form.faucetRefillTimeMinuts.value*60000;
+				data.faucets[id].enabled = !form.faucetDisable.checked;
+				data.faucets[id].url = form.faucetUrl.value;
+				data.faucets[id].matchUrl = form.faucetMatchUrl.value;
+				data.faucets[id].refillTime.hours = form.faucetRefillTimeHours.value;
+				data.faucets[id].refillTime.minuts = form.faucetRefillTimeMinuts.value;
+				data.faucets[id].enableDonation = form.faucetEnableDonation.value;
+				data.faucets[id].quickAccess = form.faucetQuickAccess.value;
+				data.faucets[id].input = form.faucetInput.value;
+				data.faucets[id].successUrl = form.faucetSuccessUrl.value;
+				data.faucets[id].successMessage = form.faucetSuccessMessage.value;
+			}
 			chrome.storage.sync.set({faucets:data.faucets},function(){
 				location.reload();
 			});
@@ -170,12 +189,18 @@ document.addEventListener('DOMContentLoaded', function () {
 			{
 				faucetsTimers += 	'<tr>	<td class="url"><a href="'+data.faucets[i].url+'" target="_blank">'+data.faucets[i].url+'</a></td>			'+
 									'		<td class="time" data-time="'+data.faucets[i].next+'"></td>													'+
-									'		<td class="edit"></td>	</tr>';
+									'		<td class="edit" data-id="'+i+'"></td>	</tr>';
 			}
 		}
 		document.getElementsByClassName('faucetsTimers')[0].innerHTML = faucetsTimers;
 		updateTimers();
 		setInterval(updateTimers,1000);
+		
+		var editButtons = document.getElementsByClassName('faucetsTimers')[0].getElementsByClassName('edit');
+		for(var i = 0;i<editButtons.length;i++)
+		{
+			editButtons[i].addEventListener('click', editFaucet);
+		}
 	});
 });
 
@@ -195,6 +220,34 @@ function updateTimers()
 			faucetsTimers[i].className  = "time late";
 		}
 	}
+}
+
+function editFaucet()
+{
+	var id = this.getAttribute('data-id');
+	chrome.storage.sync.get('faucets', function(data){
+		if(!data.faucets)
+		{
+			chrome.storage.sync.set({faucets:new Array()});
+			data.faucets = new Array();
+		}
+		var form = document.getElementsByClassName('manageFaucet')[0];
+		form.style.display = 'block';
+		document.getElementsByClassName('faucetsTimers')[0].style.display = 'none';
+		form.getElementsByClassName('edit')[0].style.display = 'inline';
+		form.faucetEdit.value = id;
+		form.faucetWallet.value = data.faucets[id].wallet;
+		form.faucetDisable.checked = !data.faucets[id].enabled;
+		form.faucetUrl.value = data.faucets[id].url;
+		form.faucetMatchUrl.value = data.faucets[id].matchUrl;
+		form.faucetRefillTimeHours.value = data.faucets[id].refillTime.hours ;
+		form.faucetRefillTimeMinuts.value = data.faucets[id].refillTime.minuts;
+		form.faucetEnableDonation.value = data.faucets[id].enableDonation;
+		form.faucetQuickAccess.value = data.faucets[id].quickAccess;
+		form.faucetInput.value = data.faucets[id].input;
+		form.faucetSuccessUrl.value = data.faucets[id].successUrl;
+		form.faucetSuccessMessage.value = data.faucets[id].successMessage;
+	});
 }
 
 function parseTime(ms)
