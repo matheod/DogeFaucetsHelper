@@ -1,0 +1,226 @@
+FAUCETS = {
+	/*'DogeHauss.com':
+	{
+		url:'http://dogehaus.com/',
+		matchUrl:'',
+		refillTime:
+		{
+			hours:6,
+			minuts:0
+		},
+		enableDonation:true,
+		quickAccess:'dogehauss',
+		successUrl:'',
+		successMessage:''
+	},*/
+	'cyanrainbow.com':
+	{
+		url:'http://www.cyanrainbow.com',
+		matchUrl:'^http://(?:www\.)?cyanrainbow\.com/?(?:index\.php)?$',
+		refillTime:
+		{
+			hours:9,
+			minuts:0
+		},
+		enableDonation:false,
+		quickAccess:'cyanrainbow',
+		input:'input[name=address]',
+		successUrl:'^http://(?:www\.)?cyanrainbow\.com/faucet$',
+		successMessage:'Congrats! You have claimed'
+	},
+	'dogefaucet.com':
+	{
+		url:'http://www.dogefaucet.com/',
+		// matchUrl:'^https?://(?:www\.)?dogefaucet\.com/?(?:index\.php)?$',
+		matchUrl:'^http://www\.dogefaucet\.com/?(?:index\.php)?$',
+		refillTime:
+		{
+			hours:12,
+			minuts:0
+		},
+		enableDonation:true,
+		quickAccess:'dogefaucet',
+		input:'#inputDoge',
+		successUrl:'^http://www\.dogefaucet\.com/what-now$',
+		successMessage:'Wow, much fun !'
+	},
+	'thebitcoinmaster.com':
+	{
+		url:'http://www.thebitcoinmaster.com/dogecoin/',
+		matchUrl:'^http://www\.thebitcoinmaster\.com/dogecoin/(?:index\.php)?$',
+		refillTime:
+		{
+			hours:1,
+			minuts:0
+		},
+		enableDonation:false,
+		quickAccess:'thebitcoinmaster',
+		input:'#formulario input[name=address]',
+		successUrl:'^http://www\.thebitcoinmaster\.com/dogecoin/check\.php$',
+		successMessage:'Woof! Wow! Doge has sent you'
+	},
+	'wow.bitcoinproject.net':
+	{
+		url:'http://wow.bitcoinproject.net',
+		matchUrl:'^http://wow\.bitcoinproject\.net/?(?:index\.php)?$',
+		refillTime:
+		{
+			hours:1,
+			minuts:0
+		},
+		enableDonation:true,
+		quickAccess:'wowbitcoinproject',
+		input:'input[name=dogecoin_address]',
+		successUrl:'^http://wow\.bitcoinproject\.net/?(?:index\.php)?$',
+		successMessage:'Success! You have been awarded'
+	}
+}
+
+COLOR = {
+	unread:[255, 0, 255, 255],
+	read:[255, 255, 0, 150],
+	wait:[255, 0, 0, 1]
+}
+
+chrome.browserAction.getBadgeBackgroundColor({}, function(color){
+	if(color = COLOR.unread)
+	{
+		chrome.browserAction.setBadgeBackgroundColor({color:COLOR.read});
+	}
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+	var faucetsList = '<option>So many choices</option>';
+	for(faucet in FAUCETS)
+	{
+		faucetsList += '<option>'+faucet+'</option>';
+	}
+	document.getElementsByClassName('defaultFaucetsList')[0].innerHTML = faucetsList;
+	document.getElementsByClassName('defaultFaucetsList')[0].addEventListener('change', function () {
+		var form = document.getElementsByClassName('manageFaucet')[0];
+		form.faucetUrl.value = FAUCETS[this.value].url;
+		form.faucetMatchUrl.value = FAUCETS[this.value].matchUrl;
+		form.faucetRefillTimeHours.value = FAUCETS[this.value].refillTime.hours;
+		form.faucetRefillTimeMinuts.value = FAUCETS[this.value].refillTime.minuts;
+		form.faucetEnableDonation.checked = FAUCETS[this.value].enableDonation;
+		form.faucetQuickAccess.value = FAUCETS[this.value].quickAccess;
+		form.faucetInput.value = FAUCETS[this.value].input;
+		form.faucetSuccessUrl.value = FAUCETS[this.value].successUrl;
+		form.faucetSuccessMessage.value = FAUCETS[this.value].successMessage;
+	});
+	document.getElementsByClassName('manageFaucet')[0].addEventListener('submit', function () {
+		chrome.storage.sync.get('faucets', function(data){
+			if(!data.faucets)
+			{
+				data.faucets = new Array();
+			}
+			var form = document.getElementsByClassName('manageFaucet')[0];
+			data.faucets.push({
+				wallet:			form.faucetWallet.value,
+				last:			new Date().getTime(),
+				next:			new Date().getTime()+form.faucetRefillTimeHours.value*3600000+form.faucetRefillTimeMinuts.value*60000,
+				enabled:		true,
+				uses:			0,
+				url:			form.faucetUrl.value,
+				matchUrl:		form.faucetMatchUrl.value,
+				refillTime:
+				{
+					hours:		form.faucetRefillTimeHours.value,
+					minuts:		form.faucetRefillTimeMinuts.value
+				},
+				enableDonation:	form.faucetEnableDonation.value,
+				quickAccess:	form.faucetQuickAccess.value,
+				input:		form.faucetInput.value,
+				successUrl:		form.faucetSuccessUrl.value,
+				successMessage:	form.faucetSuccessMessage.value
+			});
+			chrome.storage.sync.set({faucets:data.faucets},function(){
+				location.reload();
+			});
+		});
+	});
+	var menu = document.getElementsByClassName('menu')[0];
+	menu.getElementsByClassName('faucet')[0].addEventListener('click', function () {
+		if(getComputedStyle(document.getElementsByClassName('manageFaucet')[0]).display=='none')
+		{
+			document.getElementsByClassName('manageFaucet')[0].style.display = 'block';
+			document.getElementsByClassName('faucetsTimers')[0].style.display = 'none';
+			document.getElementsByClassName('manageFaucet')[0].getElementsByClassName('edit')[0].style.display = 'none';
+		}
+		else
+		{
+			document.getElementsByClassName('manageFaucet')[0].style.display = 'none';
+			document.getElementsByClassName('faucetsTimers')[0].style.display = 'block';
+		}
+	});
+	
+	
+	chrome.storage.sync.get('faucets', function(data){
+		if(!data.faucets)
+		{
+			chrome.storage.sync.set({faucets:new Array()});
+			data.faucets = new Array();
+		}
+		data.faucets.sort(sortFaucets);
+		var faucetsTimers = "";
+		for(var i = 0;i<data.faucets.length;i++)
+		{
+			if(data.faucets[i].enabled)
+			{
+				faucetsTimers += 	'<tr>	<td class="url"><a href="'+data.faucets[i].url+'" target="_blank">'+data.faucets[i].url+'</a></td>			'+
+									'		<td class="time" data-time="'+data.faucets[i].next+'"></td>													'+
+									'		<td class="edit"></td>	</tr>';
+			}
+		}
+		document.getElementsByClassName('faucetsTimers')[0].innerHTML = faucetsTimers;
+		updateTimers();
+		setInterval(updateTimers,1000);
+	});
+});
+
+function updateTimers()
+{
+	var faucetsTimers = document.getElementsByClassName('faucetsTimers')[0].getElementsByClassName('time');
+	for(var i = 0;i<faucetsTimers.length;i++)
+	{
+		var timer = faucetsTimers[i].getAttribute('data-time')-new Date().getTime();
+		if(timer>=0)
+		{
+			faucetsTimers[i].innerHTML = parseTime(timer);
+		}
+		else
+		{
+			faucetsTimers[i].innerHTML = "-"+parseTime(-timer);
+			faucetsTimers[i].className  = "time late";
+		}
+	}
+}
+
+function parseTime(ms)
+{	
+	if(ms<60000)
+	{
+		var seconds = parseInt(ms/1000);
+		if(seconds<10){seconds = "0"+seconds;}
+		return seconds+"s";
+	}
+	else
+	{
+		ms = parseInt(ms/60000);
+		var hours = parseInt(ms/60);
+		if(hours<10){hours = "0"+hours;}
+		var minuts = ms%60;
+		if(minuts<10){minuts = "0"+minuts;}
+		return hours+':'+minuts;
+	}
+}
+
+function sortFaucets(a,b)
+{
+    if (a.next > b.next)
+      return 1;
+    if (a.next < b.next)
+      return -1;
+    return 0;
+}

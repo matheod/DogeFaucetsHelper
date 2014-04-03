@@ -1,0 +1,126 @@
+body
+{
+	width:464px;
+	font-family:'comic sans ms';
+	margin:0px;
+	padding:0px;
+}
+.menu
+{
+	padding:0px;
+	margin:0px;
+	list-style-type:none;
+	font-size:0px;
+}
+.menu li
+{
+	display : inline-block;
+	width:110px; /* 22% of 500 */
+	height:28px;
+	border-left:1px dashed gold;
+	margin:0px;
+	padding:0px;
+	padding-top:4px;
+	font-size:16px;
+	background-repeat:no-repeat;
+	padding-left:44px;
+	background-position:9px 0px;
+	color:gold;
+	background-color:yellow;
+	cursor:pointer;
+}
+.menu .faucet
+{
+	background-image: url(../images/bag.png);
+	border:none;
+}
+.menu .stats
+{
+	background-image: url(../images/stats.png);
+}
+.menu .donation
+{
+	background-image: url(../images/love.png);
+}
+table
+{
+	border-collapse:collapse;
+	width:100%;
+}
+table tr
+{
+	border-bottom:1px dashed gold;
+	height:32px;
+}
+table td.url
+{
+	width:77%;
+}
+table td.url a
+{
+	color:darkgray;
+}
+table td.time
+{
+	width:15%;
+	color:gold;
+	text-align:right;
+	padding-right:10px;
+}
+table td.time.late
+{
+	color:red;
+}
+table td.time.disabled
+{
+	color:black;
+	font-variant:small-caps;
+}
+table td.edit
+{
+	width:8%;
+	background-image: url(../images/littletag.png);
+	background-repeat:no-repeat;
+	background-position:center;
+	cursor:pointer;
+}
+form.manageFaucet, form.manageFaucet .edit
+{
+	display:none;
+}
+form.manageFaucet input[name=faucetUrl]
+{
+	width:300px;
+}
+form.manageFaucet input[name=faucetMatchUrl]
+{
+	width:300px;
+}
+form.manageFaucet input[name=faucetRefillTimeHours]
+{
+	width:50px;
+}
+form.manageFaucet input[name=faucetRefillTimeMinuts]
+{
+	width:50px;
+}
+form.manageFaucet input[name=faucetWallet]
+{
+	width:300px;
+}
+form.manageFaucet input[name=faucetQuickAccess]
+{
+	width:100px;
+}
+form.manageFaucet input[name=faucetInput]
+{
+	width:100px;
+}
+form.manageFaucet input[name=faucetSuccessUrl]
+{
+	width:300px;
+}
+form.manageFaucet input[name=faucetSuccessMessage]
+{
+	width:200px;
+}
