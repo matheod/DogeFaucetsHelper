@@ -179,10 +179,24 @@ document.addEventListener('DOMContentLoaded', function () {
 	menu.getElementsByClassName('faucet')[0].addEventListener('click', function () {
 		if(getComputedStyle(document.getElementsByClassName('manageFaucet')[0]).display=='none')
 		{
-			document.getElementsByClassName('manageFaucet')[0].style.display = 'block';
+			var form = document.getElementsByClassName('manageFaucet')[0];
+			form.getElementsByClassName('edit')[0].style.display = 'none';
+			form.style.display = 'block';
 			document.getElementsByClassName('faucetsTimers')[0].style.display = 'none';
 			document.getElementsByClassName('faucetsStats')[0].style.display = 'none';
-			document.getElementsByClassName('manageFaucet')[0].getElementsByClassName('edit')[0].style.display = 'none';
+			form.faucetEdit.value = -1;
+			form.defaultFaucetsList.selectedIndex = 0;
+			form.faucetWallet.value = '';
+			form.faucetDisable.checked = false;
+			form.faucetUrl.value = '';
+			form.faucetMatchUrl.value = '';
+			form.faucetRefillTimeHours.value = '';
+			form.faucetRefillTimeMinuts.value = '';
+			form.faucetEnableDonation.value = false;
+			form.faucetQuickAccess.value = '';
+			form.faucetInput.value = '';
+			form.faucetSuccessUrl.value = '';
+			form.faucetSuccessMessage.value = '';
 		}
 		else
 		{
@@ -272,7 +286,7 @@ function editFaucet()
 		form.faucetDisable.checked = !data.faucets[id].enabled;
 		form.faucetUrl.value = data.faucets[id].url;
 		form.faucetMatchUrl.value = data.faucets[id].matchUrl;
-		form.faucetRefillTimeHours.value = data.faucets[id].refillTime.hours ;
+		form.faucetRefillTimeHours.value = data.faucets[id].refillTime.hours;
 		form.faucetRefillTimeMinuts.value = data.faucets[id].refillTime.minuts;
 		form.faucetEnableDonation.value = data.faucets[id].enableDonation;
 		form.faucetQuickAccess.value = data.faucets[id].quickAccess;
