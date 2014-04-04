@@ -47,7 +47,12 @@ table
 	border-collapse:collapse;
 	width:100%;
 }
-table tr
+.faucetsTimers tr
+{
+	border-bottom:1px dashed gold;
+	height:32px;
+}
+.faucetsStats tr.bottom
 {
 	border-bottom:1px dashed gold;
 	height:32px;
@@ -71,9 +76,9 @@ table td.time.late
 {
 	color:red;
 }
-table td.time.disabled
+table td.disabled
 {
-	color:black;
+	padding-right:10px;
 	font-variant:small-caps;
 }
 table td.edit
@@ -123,4 +128,8 @@ form.manageFaucet input[name=faucetSuccessUrl]
 form.manageFaucet input[name=faucetSuccessMessage]
 {
 	width:200px;
+}
+.faucetsStats
+{
+	display:none;
 }

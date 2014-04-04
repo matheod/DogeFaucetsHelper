@@ -181,12 +181,27 @@ document.addEventListener('DOMContentLoaded', function () {
 		{
 			document.getElementsByClassName('manageFaucet')[0].style.display = 'block';
 			document.getElementsByClassName('faucetsTimers')[0].style.display = 'none';
+			document.getElementsByClassName('faucetsStats')[0].style.display = 'none';
 			document.getElementsByClassName('manageFaucet')[0].getElementsByClassName('edit')[0].style.display = 'none';
 		}
 		else
 		{
 			document.getElementsByClassName('manageFaucet')[0].style.display = 'none';
-			document.getElementsByClassName('faucetsTimers')[0].style.display = 'block';
+			document.getElementsByClassName('faucetsTimers')[0].style.display = 'table';
+		}
+	});
+	menu.getElementsByClassName('stats')[0].addEventListener('click', function () {
+		if(getComputedStyle(document.getElementsByClassName('faucetsStats')[0]).display=='none')
+		{
+			document.getElementsByClassName('faucetsStats')[0].style.display = 'table';
+			document.getElementsByClassName('manageFaucet')[0].style.display = 'none';
+			document.getElementsByClassName('faucetsTimers')[0].style.display = 'none';
+			showStats();
+		}
+		else
+		{
+			document.getElementsByClassName('faucetsStats')[0].style.display = 'none';
+			document.getElementsByClassName('faucetsTimers')[0].style.display = 'table';
 		}
 	});
 	
@@ -197,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			chrome.storage.sync.set({faucets:new Array()});
 			data.faucets = new Array();
 		}
-		data.faucets.sort(sortFaucets);
+		data.faucets.sort(sortFaucetsByTime);
 		var faucetsTimers = "";
 		for(var i = 0;i<data.faucets.length;i++)
 		{
@@ -250,6 +265,7 @@ function editFaucet()
 		var form = document.getElementsByClassName('manageFaucet')[0];
 		form.style.display = 'block';
 		document.getElementsByClassName('faucetsTimers')[0].style.display = 'none';
+		document.getElementsByClassName('faucetsStats')[0].style.display = 'none';
 		form.getElementsByClassName('edit')[0].style.display = 'inline';
 		form.faucetEdit.value = id;
 		form.faucetWallet.value = data.faucets[id].wallet;
@@ -264,6 +280,62 @@ function editFaucet()
 		form.faucetSuccessUrl.value = data.faucets[id].successUrl;
 		form.faucetSuccessMessage.value = data.faucets[id].successMessage;
 	});
+}
+
+function showStats()
+{
+	if(document.getElementsByClassName('faucetsStats')[0].innerHTML=="")
+	{
+		chrome.storage.sync.get('faucets', function(data){
+			if(!data.faucets)
+			{
+				chrome.storage.sync.set({faucets:new Array()});
+				data.faucets = new Array();
+			}
+			data.faucets.sort(sortFaucetsByUses);
+			var faucetsStats = "";
+			for(var i = 0;i<data.faucets.length;i++)
+			{
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", "http://dogechain.info/chain/Dogecoin/q/getreceivedbyaddress/"+data.faucets[i].wallet, true);
+				xhr.onreadystatechange = (function(i,uses){return function() {
+				  if (this.readyState == 4) {
+					if(this.responseText == "" || isNaN(this.responseText))
+					{
+						document.getElementsByClassName("stats-total-"+i)[0].innerText = 'ERROR ('+this.responseText+')';
+						document.getElementsByClassName("stats-average-"+i)[0].innerText = 'ERROR ('+this.responseText+')';
+					}
+					else
+					{
+						document.getElementsByClassName("stats-total-"+i)[0].innerText = this.responseText+'Ð';
+						if(uses>0)
+						{
+							document.getElementsByClassName("stats-average-"+i)[0].innerText = (this.responseText/uses).toFixed(8)+'Ð';
+						}
+						else
+						{
+							document.getElementsByClassName("stats-average-"+i)[0].innerText = '0Ð';
+						}
+					}
+				  }
+				}})(i,data.faucets[i].uses);
+				xhr.send();
+				faucetsStats += 		'<tr>	<td class="url"><a href="'+data.faucets[i].url+'" target="_blank">'+data.faucets[i].url+'</a></td>			'+
+										'		'+(data.faucets[i].enabled?'<td>':'<td class="disabled">disabled')+'</td>									'+
+										'		<td class="edit" data-id="'+i+'"></td>	</tr>																'+
+										'<tr><td colspan="3"><b>Total :</b> <code class="stats-total-'+i+'"></code></td>	</tr>'+
+										'<tr><td colspan="3"><b>Average :</b> <code class="stats-average-'+i+'"></code></td>	</tr>'+
+										'<tr class="bottom"><td colspan="3"><b>Uses :</b> <code>'+data.faucets[i].uses+'</code></td>	</tr>';
+			}
+			document.getElementsByClassName('faucetsStats')[0].innerHTML = faucetsStats;
+			
+			var editButtons = document.getElementsByClassName('faucetsStats')[0].getElementsByClassName('edit');
+			for(var i = 0;i<editButtons.length;i++)
+			{
+				editButtons[i].addEventListener('click', editFaucet);
+			}
+		});
+	}
 }
 
 function parseTime(ms)
@@ -285,11 +357,19 @@ function parseTime(ms)
 	}
 }
 
-function sortFaucets(a,b)
+function sortFaucetsByTime(a,b)
 {
     if (a.next > b.next)
       return 1;
     if (a.next < b.next)
       return -1;
+    return 0;
+}
+function sortFaucetsByUses(a,b)
+{
+    if (a.uses > b.uses)
+      return -1;
+    if (a.uses < b.uses)
+      return 1;
     return 0;
 }
