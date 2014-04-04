@@ -109,55 +109,85 @@ document.addEventListener('DOMContentLoaded', function () {
 		form.faucetSuccessUrl.value = FAUCETS[this.value].successUrl;
 		form.faucetSuccessMessage.value = FAUCETS[this.value].successMessage;
 	});
-	document.getElementsByClassName('manageFaucet')[0].addEventListener('submit', function () {
+	document.getElementsByClassName('manageFaucet')[0].addEventListener('submit', function (e) {
 		chrome.storage.sync.get('faucets', function(data){
 			if(!data.faucets)
 			{
 				data.faucets = new Array();
 			}
 			var form = document.getElementsByClassName('manageFaucet')[0];
-			if(getComputedStyle(form.getElementsByClassName('edit')[0]).display=='none')
+			var error = false;
+			if(form.faucetWallet.value.length!=34 || form.faucetWaller.value[0]!="D")
 			{
-				data.faucets.push({
-					wallet:			form.faucetWallet.value,
-					last:			new Date().getTime(),
-					next:			new Date().getTime()+form.faucetRefillTimeHours.value*3600000+form.faucetRefillTimeMinuts.value*60000,
-					enabled:		true,
-					uses:			0,
-					url:			form.faucetUrl.value,
-					matchUrl:		form.faucetMatchUrl.value,
-					refillTime:
-					{
-						hours:		form.faucetRefillTimeHours.value,
-						minuts:		form.faucetRefillTimeMinuts.value
-					},
-					enableDonation:	form.faucetEnableDonation.value,
-					quickAccess:	form.faucetQuickAccess.value,
-					input:		form.faucetInput.value,
-					successUrl:		form.faucetSuccessUrl.value,
-					successMessage:	form.faucetSuccessMessage.value
+				error = true;
+				form.faucetWallet.style.background = 'yellow';
+				setTimeout(function(){form.faucetWallet.style.background = 'white';},1000);
+			}
+			if(form.faucetUrl.value=="")
+			{
+				error = true;
+				form.faucetUrl.style.background = 'yellow';
+				setTimeout(function(){form.faucetUrl.style.background = 'white';},1000);
+			}
+			if(isNaN(form.faucetRefillTimeHours.value) || isNaN(form.faucetRefillTimeMinuts.value))
+			{
+				error = true;
+				form.faucetRefillTimeHours.style.background = 'yellow';
+				form.faucetRefillTimeMinuts.style.background = 'yellow';
+				setTimeout(function(){form.faucetRefillTimeHours.style.background = 'white';form.faucetRefillTimeMinuts.style.background = 'white';},1000);
+			}
+			if(form.faucetSuccessUrl.value=="")
+			{
+				error = true;
+				form.faucetSuccessUrl.style.background = 'yellow';
+				setTimeout(function(){form.faucetSuccessUrl.style.background = 'white';},1000);
+			}
+			if(!error)
+			{
+				if(getComputedStyle(form.getElementsByClassName('edit')[0]).display=='none')
+				{
+					data.faucets.push({
+						wallet:			form.faucetWallet.value,
+						last:			new Date().getTime(),
+						next:			new Date().getTime()+form.faucetRefillTimeHours.value*3600000+form.faucetRefillTimeMinuts.value*60000,
+						enabled:		true,
+						uses:			0,
+						url:			form.faucetUrl.value,
+						matchUrl:		form.faucetMatchUrl.value,
+						refillTime:
+						{
+							hours:		form.faucetRefillTimeHours.value,
+							minuts:		form.faucetRefillTimeMinuts.value
+						},
+						enableDonation:	form.faucetEnableDonation.value,
+						quickAccess:	form.faucetQuickAccess.value,
+						input:		form.faucetInput.value,
+						successUrl:		form.faucetSuccessUrl.value,
+						successMessage:	form.faucetSuccessMessage.value
+					});
+				}
+				else
+				{	
+					var id = form.faucetEdit.value;
+					data.faucets[id].wallet = form.faucetWallet.value;
+					data.faucets[id].next = data.faucets[id].last+form.faucetRefillTimeHours.value*3600000+form.faucetRefillTimeMinuts.value*60000;
+					data.faucets[id].enabled = !form.faucetDisable.checked;
+					data.faucets[id].url = form.faucetUrl.value;
+					data.faucets[id].matchUrl = form.faucetMatchUrl.value;
+					data.faucets[id].refillTime.hours = form.faucetRefillTimeHours.value;
+					data.faucets[id].refillTime.minuts = form.faucetRefillTimeMinuts.value;
+					data.faucets[id].enableDonation = form.faucetEnableDonation.value;
+					data.faucets[id].quickAccess = form.faucetQuickAccess.value;
+					data.faucets[id].input = form.faucetInput.value;
+					data.faucets[id].successUrl = form.faucetSuccessUrl.value;
+					data.faucets[id].successMessage = form.faucetSuccessMessage.value;
+				}
+				chrome.storage.sync.set({faucets:data.faucets},function(){
+					location.reload();
 				});
 			}
-			else
-			{	
-				var id = form.faucetEdit.value;
-				data.faucets[id].wallet = form.faucetWallet.value;
-				data.faucets[id].next = data.faucets[id].last+form.faucetRefillTimeHours.value*3600000+form.faucetRefillTimeMinuts.value*60000;
-				data.faucets[id].enabled = !form.faucetDisable.checked;
-				data.faucets[id].url = form.faucetUrl.value;
-				data.faucets[id].matchUrl = form.faucetMatchUrl.value;
-				data.faucets[id].refillTime.hours = form.faucetRefillTimeHours.value;
-				data.faucets[id].refillTime.minuts = form.faucetRefillTimeMinuts.value;
-				data.faucets[id].enableDonation = form.faucetEnableDonation.value;
-				data.faucets[id].quickAccess = form.faucetQuickAccess.value;
-				data.faucets[id].input = form.faucetInput.value;
-				data.faucets[id].successUrl = form.faucetSuccessUrl.value;
-				data.faucets[id].successMessage = form.faucetSuccessMessage.value;
-			}
-			chrome.storage.sync.set({faucets:data.faucets},function(){
-				location.reload();
-			});
 		});
+		e.preventDefault();
 	});
 	
 	document.querySelector('.manageFaucet input[name=faucetDelete]').addEventListener('click', function () {
@@ -307,39 +337,46 @@ function showStats()
 				data.faucets = new Array();
 			}
 			data.faucets.sort(sortFaucetsByUses);
-			var faucetsStats = "";
-			for(var i = 0;i<data.faucets.length;i++)
+			if(data.faucets.length==0)
 			{
-				var xhr = new XMLHttpRequest();
-				xhr.open("GET", "http://dogechain.info/chain/Dogecoin/q/getreceivedbyaddress/"+data.faucets[i].wallet, true);
-				xhr.onreadystatechange = (function(i,uses){return function() {
-				  if (this.readyState == 4) {
-					if(this.responseText == "" || isNaN(this.responseText))
-					{
-						document.getElementsByClassName("stats-total-"+i)[0].innerText = 'ERROR ('+this.responseText+')';
-						document.getElementsByClassName("stats-average-"+i)[0].innerText = 'ERROR ('+this.responseText+')';
-					}
-					else
-					{
-						document.getElementsByClassName("stats-total-"+i)[0].innerText = this.responseText+'Ð';
-						if(uses>0)
+				var faucetsStats = "<tr><td>No faucets added !</td></tr>";
+			}
+			else
+			{
+				var faucetsStats = "";
+				for(var i = 0;i<data.faucets.length;i++)
+				{
+					var xhr = new XMLHttpRequest();
+					xhr.open("GET", "http://dogechain.info/chain/Dogecoin/q/getreceivedbyaddress/"+data.faucets[i].wallet, true);
+					xhr.onreadystatechange = (function(i,uses){return function() {
+					  if (this.readyState == 4) {
+						if(this.responseText == "" || isNaN(this.responseText))
 						{
-							document.getElementsByClassName("stats-average-"+i)[0].innerText = (this.responseText/uses).toFixed(8)+'Ð';
+							document.getElementsByClassName("stats-total-"+i)[0].innerText = 'ERROR ('+this.responseText+')';
+							document.getElementsByClassName("stats-average-"+i)[0].innerText = 'ERROR ('+this.responseText+')';
 						}
 						else
 						{
-							document.getElementsByClassName("stats-average-"+i)[0].innerText = '0Ð';
+							document.getElementsByClassName("stats-total-"+i)[0].innerText = this.responseText+'Ð';
+							if(uses>0)
+							{
+								document.getElementsByClassName("stats-average-"+i)[0].innerText = (this.responseText/uses).toFixed(8)+'Ð';
+							}
+							else
+							{
+								document.getElementsByClassName("stats-average-"+i)[0].innerText = '0Ð';
+							}
 						}
-					}
-				  }
-				}})(i,data.faucets[i].uses);
-				xhr.send();
-				faucetsStats += 		'<tr>	<td class="url"><a href="'+data.faucets[i].url+'" target="_blank">'+data.faucets[i].url+'</a></td>			'+
-										'		'+(data.faucets[i].enabled?'<td>':'<td class="disabled">disabled')+'</td>									'+
-										'		<td class="edit" data-id="'+i+'"></td>	</tr>																'+
-										'<tr><td colspan="3"><b>Total :</b> <code class="stats-total-'+i+'"></code></td>	</tr>'+
-										'<tr><td colspan="3"><b>Average :</b> <code class="stats-average-'+i+'"></code></td>	</tr>'+
-										'<tr class="bottom"><td colspan="3"><b>Uses :</b> <code>'+data.faucets[i].uses+'</code></td>	</tr>';
+					  }
+					}})(i,data.faucets[i].uses);
+					xhr.send();
+					faucetsStats += 		'<tr>	<td class="url"><a href="'+data.faucets[i].url+'" target="_blank">'+data.faucets[i].url+'</a></td>			'+
+											'		'+(data.faucets[i].enabled?'<td>':'<td class="disabled">disabled')+'</td>									'+
+											'		<td class="edit" data-id="'+i+'"></td>	</tr>																'+
+											'<tr><td colspan="3"><b>Total :</b> <code class="stats-total-'+i+'"></code></td>	</tr>'+
+											'<tr><td colspan="3"><b>Average :</b> <code class="stats-average-'+i+'"></code></td>	</tr>'+
+											'<tr class="bottom"><td colspan="3"><b>Uses :</b> <code>'+data.faucets[i].uses+'</code></td>	</tr>';
+				}
 			}
 			document.getElementsByClassName('faucetsStats')[0].innerHTML = faucetsStats;
 			
