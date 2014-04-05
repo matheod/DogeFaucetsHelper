@@ -191,18 +191,21 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 	
 	document.querySelector('.manageFaucet input[name=faucetDelete]').addEventListener('click', function () {
-		chrome.storage.sync.get('faucets', function(data){
-			if(!data.faucets)
-			{
-				data.faucets = new Array();
-			}
-			var form = document.getElementsByClassName('manageFaucet')[0];
-			var id = form.faucetEdit.value;
-			data.faucets.splice(id,1);
-			chrome.storage.sync.set({faucets:data.faucets},function(){
-				location.reload();
+		if(confirm('Are you sure you want to delete this faucet ?'))
+		{
+			chrome.storage.sync.get('faucets', function(data){
+				if(!data.faucets)
+				{
+					data.faucets = new Array();
+				}
+				var form = document.getElementsByClassName('manageFaucet')[0];
+				var id = form.faucetEdit.value;
+				data.faucets.splice(id,1);
+				chrome.storage.sync.set({faucets:data.faucets},function(){
+					location.reload();
+				});
 			});
-		});
+		}
 	});
 	
 	var menu = document.getElementsByClassName('menu')[0];
