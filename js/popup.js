@@ -104,6 +104,21 @@ FAUCETS = {
 		successUrl:'^http://www\.dogefaucet\.com/what-now$', ///////////
 		successMessage:'Wow, much fun !' ///////////
 	},*/
+	'freefaucet.com.ar':
+	{
+		url:'http://doge.freefaucet.com.ar/',
+		matchUrl:'^http://freefaucet\.com\.ar/?(?:index\.php)?$',
+		refillTime:
+		{
+			hours:24,
+			minuts:0
+		},
+		enableDonation:true,
+		quickAccess:'freefaucet',
+		input:'#wallet-address',
+		successUrl:'^http://freefaucet\.com\.ar/?(?:index\.php)?$',
+		successMessage:'You were added to the payroll list'
+	},
 	'rickyfaucet.tk':
 	{
 		url:'http://rickyfaucet.tk/',
