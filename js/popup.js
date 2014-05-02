@@ -74,6 +74,21 @@ FAUCETS = {
 		successUrl:'^http://www\.dogefaucet\.com/what-now$',
 		successMessage:'Wow, much fun !'
 	},
+	/*'freec0ins.com':
+	{
+		url:'http://freec0ins.com/',
+		matchUrl:'^http://(?:www\.)?freec0ins\.com/?(?:index\.php)?$',
+		refillTime:
+		{
+			hours:12, /////////
+			minuts:0
+		},
+		enableDonation:true, ////////////
+		quickAccess:'freec0ins',
+		input:'input[name=address]',
+		successUrl:'^http://(?:www\.)?freec0ins\.com/index\.php\?next$',
+		successMessage:'Wow, much fun !' /////////////////////
+	},*/
 	/*'freedoge.we-mine.it':
 	{
 		url:'http://freedoge.we-mine.it/',
