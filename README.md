@@ -20,8 +20,10 @@ You can write in url faucet: to access quickly to faucet.
 
 Just go here : https://chrome.google.com/webstore/detail/doge-faucets-helper/oegfhhkackbolbkonglooolndlbpmocm
 
-### Developer Mode (working version, may don't work)
+### Developer Mode (working version, may doesn't work)
 
 1. Download files from Github
 2. Go to `Menu->Tools->Extensions` and tick the `Developer Mode` checkbox
 3. Choose `Load unpacked extension` and point it to the downloaded folder.
+
+You can also go [here](https://github.com/matheod/DogeFaucetsHelper/releases) and download specific release.
