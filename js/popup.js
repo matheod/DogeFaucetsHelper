@@ -32,7 +32,7 @@ FAUCETS = {
 	'cyanrainbow.com':
 	{
 		url:'http://www.cyanrainbow.com',
-		matchUrl:'^http://(?:www\.)?cyanrainbow\.com/?(?:index\.php)?$',
+		matchUrl:'^http://(?:www\.)?cyanrainbow\.com/(?:index\.php)?$',
 		refillTime:
 		{
 			hours:9,
@@ -47,7 +47,7 @@ FAUCETS = {
 	'dogedroppings.com':
 	{
 		url:'http://dogedroppings.com/',
-		matchUrl:'^http://dogedroppings\.com/?(?:index\.php)?$',
+		matchUrl:'^http://dogedroppings\.com/(?:index\.php)?$',
 		refillTime:
 		{
 			hours:24,
@@ -56,13 +56,13 @@ FAUCETS = {
 		enableDonation:true,
 		quickAccess:'dogedroppings',
 		input:'input[name=dogecoin_address]',
-		successUrl:'^http://dogedroppings\.com/?(?:index\.php)?$',
+		successUrl:'^http://dogedroppings\.com/(?:index\.php)?$',
 		successMessage:'Success! You have been awarded'
 	},
 	'dogefaucet.com':
 	{
 		url:'http://www.dogefaucet.com/',
-		matchUrl:'^http://www\.dogefaucet\.com/?(?:index\.php)?$',
+		matchUrl:'^http://www\.dogefaucet\.com/(?:index\.php)?$',
 		refillTime:
 		{
 			hours:12,
@@ -77,7 +77,7 @@ FAUCETS = {
 	/*'freec0ins.com':
 	{
 		url:'http://freec0ins.com/',
-		matchUrl:'^http://(?:www\.)?freec0ins\.com/?(?:index\.php)?$',
+		matchUrl:'^http://(?:www\.)?freec0ins\.com/(?:index\.php)?$',
 		refillTime:
 		{
 			hours:12, /////////
@@ -92,7 +92,7 @@ FAUCETS = {
 	/*'freedoge.we-mine.it':
 	{
 		url:'http://freedoge.we-mine.it/',
-		matchUrl:'^http://freedoge\.we-mine\.it/?(?:index\.php)?$',
+		matchUrl:'^http://freedoge\.we-mine\.it/(?:index\.php)?$',
 		refillTime:
 		{
 			hours:12, ///////////
@@ -107,7 +107,7 @@ FAUCETS = {
 	'freefaucet.com.ar':
 	{
 		url:'http://doge.freefaucet.com.ar/',
-		matchUrl:'^http://freefaucet\.com\.ar/?(?:index\.php)?$',
+		matchUrl:'^http://freefaucet\.com\.ar/(?:index\.php)?$',
 		refillTime:
 		{
 			hours:24,
@@ -116,7 +116,7 @@ FAUCETS = {
 		enableDonation:true,
 		quickAccess:'freefaucet',
 		input:'#wallet-address',
-		successUrl:'^http://freefaucet\.com\.ar/?(?:index\.php)?$',
+		successUrl:'^http://freefaucet\.com\.ar/(?:index\.php)?$',
 		successMessage:'You were added to the payroll list'
 	},
 	'indogewetrust.com':
@@ -137,7 +137,7 @@ FAUCETS = {
 	'rickyfaucet.tk':
 	{
 		url:'http://rickyfaucet.tk/',
-		matchUrl:'^http://(?:www\.)?rickyfaucet\.tk/?(?:index\.php)?$',
+		matchUrl:'^http://(?:www\.)?rickyfaucet\.tk/(?:index\.php)?$',
 		refillTime:
 		{
 			hours:24,
@@ -146,7 +146,7 @@ FAUCETS = {
 		enableDonation:true,
 		quickAccess:'rickyfaucet',
 		input:'input[name=address]',
-		successUrl:'^http://(?:www\.)?rickyfaucet\.tk/?(?:index\.php)?$',
+		successUrl:'^http://(?:www\.)?rickyfaucet\.tk/(?:index\.php)?$',
 		successMessage:'Succesfully requested more doge.'
 	},
 	'thebitcoinmaster.com':
@@ -167,7 +167,7 @@ FAUCETS = {
 	'wow.bitcoinproject.net':
 	{
 		url:'http://wow.bitcoinproject.net',
-		matchUrl:'^http://wow\.bitcoinproject\.net/?(?:index\.php)?$',
+		matchUrl:'^http://wow\.bitcoinproject\.net/(?:index\.php)?$',
 		refillTime:
 		{
 			hours:1,
@@ -176,7 +176,7 @@ FAUCETS = {
 		enableDonation:true,
 		quickAccess:'wowbitcoinproject',
 		input:'input[name=dogecoin_address]',
-		successUrl:'^http://wow\.bitcoinproject\.net/?(?:index\.php)?$',
+		successUrl:'^http://wow\.bitcoinproject\.net/(?:index\.php)?$',
 		successMessage:'Success! You have been awarded'
 	}
 }
