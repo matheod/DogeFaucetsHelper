@@ -3,8 +3,7 @@ DogeFaucetsHelper
 
 Work In Progress.
 
-
-#### How to use
+## How to use
 
 After install it, open the extension, click on Wow faucet and click on So many faucets. Then choose a faucet and fill the wallet field.
 You now have a timer until the next time you can go on this faucet ! It will autofill the wallet adress when you will go on the faucet and autodetect when you successfully use the faucet and update the timer. You can click on Such Numbers for stats.
@@ -15,7 +14,7 @@ Many love tab (allowing you in the future to set donation adress and use sometim
 
 You can write in url faucet: to access quickly to faucet.
 
-#### Installation
+## Installation
 
 ### On Chrome Store (latest version)
 
