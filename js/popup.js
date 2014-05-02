@@ -155,8 +155,8 @@ FAUCETS = {
 		matchUrl:'^http://www\.thebitcoinmaster\.com/dogecoin/(?:index\.php)?$',
 		refillTime:
 		{
-			hours:1,
-			minuts:0
+			hours:0,
+			minuts:1
 		},
 		enableDonation:false,
 		quickAccess:'thebitcoinmaster',
