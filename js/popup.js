@@ -119,6 +119,21 @@ FAUCETS = {
 		successUrl:'^http://freefaucet\.com\.ar/?(?:index\.php)?$',
 		successMessage:'You were added to the payroll list'
 	},
+	'indogewetrust.com':
+	{
+		url:'http://indogewetrust.com/',
+		matchUrl:'^http://(?:www\.)?indogewetrust\.com/(?:index\.php)?$',
+		refillTime:
+		{
+			hours:24, // not sure
+			minuts:0
+		},
+		enableDonation:true,
+		quickAccess:'indogewetrust',
+		input:'#receive_address',
+		successUrl:'^http://(?:www\.)?indogewetrust\.com/$',
+		successMessage:'You have won'
+	},
 	'rickyfaucet.tk':
 	{
 		url:'http://rickyfaucet.tk/',
