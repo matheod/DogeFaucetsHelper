@@ -6,7 +6,7 @@ FAUCETS = {
 		refillTime:
 		{
 			hours:24,
-			minuts:0
+			minutes:0
 		},
 		enableDonation:true,
 		quickAccess:'cryptotide',
@@ -21,7 +21,7 @@ FAUCETS = {
 		refillTime:
 		{
 			hours:24,
-			minuts:0
+			minutes:0
 		},
 		enableDonation:true,
 		quickAccess:'cryptospout',
@@ -36,7 +36,7 @@ FAUCETS = {
 		refillTime:
 		{
 			hours:9,
-			minuts:0
+			minutes:0
 		},
 		enableDonation:false,
 		quickAccess:'cyanrainbow',
@@ -51,7 +51,7 @@ FAUCETS = {
 		refillTime:
 		{
 			hours:24,
-			minuts:0
+			minutes:0
 		},
 		enableDonation:true,
 		quickAccess:'dogedroppings',
@@ -66,7 +66,7 @@ FAUCETS = {
 		refillTime:
 		{
 			hours:12,
-			minuts:0
+			minutes:0
 		},
 		enableDonation:true,
 		quickAccess:'dogefaucet',
@@ -81,7 +81,7 @@ FAUCETS = {
 		refillTime:
 		{
 			hours:12, /////////
-			minuts:0
+			minutes:0
 		},
 		enableDonation:true, ////////////
 		quickAccess:'freec0ins',
@@ -96,7 +96,7 @@ FAUCETS = {
 		refillTime:
 		{
 			hours:12, ///////////
-			minuts:0
+			minutes:0
 		},
 		enableDonation:true, ///////////
 		quickAccess:'wemineit',
@@ -111,7 +111,7 @@ FAUCETS = {
 		refillTime:
 		{
 			hours:24,
-			minuts:0
+			minutes:0
 		},
 		enableDonation:true,
 		quickAccess:'freefaucet',
@@ -126,7 +126,7 @@ FAUCETS = {
 		refillTime:
 		{
 			hours:24, // not sure
-			minuts:0
+			minutes:0
 		},
 		enableDonation:true,
 		quickAccess:'indogewetrust',
@@ -141,7 +141,7 @@ FAUCETS = {
 		refillTime:
 		{
 			hours:24,
-			minuts:0
+			minutes:0
 		},
 		enableDonation:true,
 		quickAccess:'rickyfaucet',
@@ -156,7 +156,7 @@ FAUCETS = {
 		refillTime:
 		{
 			hours:0,
-			minuts:1
+			minutes:1
 		},
 		enableDonation:false,
 		quickAccess:'thebitcoinmaster',
@@ -171,7 +171,7 @@ FAUCETS = {
 		refillTime:
 		{
 			hours:1,
-			minuts:0
+			minutes:0
 		},
 		enableDonation:true,
 		quickAccess:'wowbitcoinproject',
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		form.faucetUrl.value = FAUCETS[this.value].url;
 		form.faucetMatchUrl.value = FAUCETS[this.value].matchUrl;
 		form.faucetRefillTimeHours.value = FAUCETS[this.value].refillTime.hours;
-		form.faucetRefillTimeMinuts.value = FAUCETS[this.value].refillTime.minuts;
+		form.faucetRefillTimeMinuts.value = FAUCETS[this.value].refillTime.minutes;
 		form.faucetEnableDonation.checked = FAUCETS[this.value].enableDonation;
 		form.faucetQuickAccess.value = FAUCETS[this.value].quickAccess;
 		form.faucetInput.value = FAUCETS[this.value].input;
@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function () {
 						refillTime:
 						{
 							hours:		form.faucetRefillTimeHours.value,
-							minuts:		form.faucetRefillTimeMinuts.value
+							minutes:		form.faucetRefillTimeMinuts.value
 						},
 						enableDonation:	form.faucetEnableDonation.value,
 						quickAccess:	form.faucetQuickAccess.value,
@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function () {
 					data.faucets[id].url = form.faucetUrl.value;
 					data.faucets[id].matchUrl = form.faucetMatchUrl.value;
 					data.faucets[id].refillTime.hours = form.faucetRefillTimeHours.value;
-					data.faucets[id].refillTime.minuts = form.faucetRefillTimeMinuts.value;
+					data.faucets[id].refillTime.minutes = form.faucetRefillTimeMinuts.value;
 					data.faucets[id].enableDonation = form.faucetEnableDonation.value;
 					data.faucets[id].quickAccess = form.faucetQuickAccess.value;
 					data.faucets[id].input = form.faucetInput.value;
@@ -425,7 +425,7 @@ function editFaucet()
 		form.faucetUrl.value = data.faucets[id].url;
 		form.faucetMatchUrl.value = data.faucets[id].matchUrl;
 		form.faucetRefillTimeHours.value = data.faucets[id].refillTime.hours;
-		form.faucetRefillTimeMinuts.value = data.faucets[id].refillTime.minuts;
+		form.faucetRefillTimeMinuts.value = data.faucets[id].refillTime.minutes;
 		form.faucetEnableDonation.value = data.faucets[id].enableDonation;
 		form.faucetQuickAccess.value = data.faucets[id].quickAccess;
 		form.faucetInput.value = data.faucets[id].input;
@@ -510,9 +510,9 @@ function parseTime(ms)
 		ms = parseInt(ms/60000);
 		var hours = parseInt(ms/60);
 		if(hours<10){hours = "0"+hours;}
-		var minuts = ms%60;
-		if(minuts<10){minuts = "0"+minuts;}
-		return hours+':'+minuts;
+		var minutes = ms%60;
+		if(minutes<10){minutes = "0"+minutes;}
+		return hours+':'+minutes;
 	}
 }
 

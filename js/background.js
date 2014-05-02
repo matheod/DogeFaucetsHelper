@@ -114,7 +114,7 @@ function updateTimer()
 	refillTime:
 	{
 		hours:12,
-		minuts:0
+		minutes:0
 	},
 	enableDonation:true,
 	quickAccess:'dogefaucet',
@@ -180,15 +180,15 @@ function parseTime(ms)
 	{
 		ms = parseInt(ms/60000);
 		var hours = parseInt(ms/60);
-		var minuts = ms%60;
+		var minutes = ms%60;
 		if(hours<10)
 		{
-			if(minuts<10){minuts = "0"+minuts;}
-			return hours+':'+minuts;
+			if(minutes<10){minutes = "0"+minutes;}
+			return hours+':'+minutes;
 		}
 		else
 		{
-			if(minuts>=30)
+			if(minutes>=30)
 			{
 				hours++;
 			}

@@ -39,7 +39,7 @@ if(typeof injectedSuccess == "undefined")
 			}
 			data.faucets[faucet].uses++;
 			data.faucets[faucet].last=new Date().getTime();
-			data.faucets[faucet].next=new Date().getTime()+data.faucets[faucet].refillTime.hours*3600000+data.faucets[faucet].refillTime.minuts*60000;
+			data.faucets[faucet].next=new Date().getTime()+data.faucets[faucet].refillTime.hours*3600000+data.faucets[faucet].refillTime.minutes*60000;
 			chrome.storage.sync.set({faucets:data.faucets});
 		});
 		
