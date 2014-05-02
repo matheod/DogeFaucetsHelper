@@ -1,4 +1,19 @@
 FAUCETS = {
+	'cryptotide.com':
+	{
+		url:'http://www.cryptotide.com/faucet.php?coin=DOGE',
+		matchUrl:'^http://(?:www\.)?cryptotide\.com/faucet\.php',
+		refillTime:
+		{
+			hours:24,
+			minuts:0
+		},
+		enableDonation:true,
+		quickAccess:'cryptotide',
+		input:'#wallet',
+		successUrl:'!ajax',
+		successMessage:'You\'ve been queued to receive:'
+	},
 	'cryptospout.com':
 	{
 		url:'http://cryptospout.com/faucet.php?coin=DOGE',
@@ -44,6 +59,21 @@ FAUCETS = {
 		successUrl:'^http://www\.dogefaucet\.com/what-now$',
 		successMessage:'Wow, much fun !'
 	},
+	/*'freedoge.we-mine.it':
+	{
+		url:'http://freedoge.we-mine.it/',
+		matchUrl:'^http://freedoge\.we-mine\.it/?(?:index\.php)?$',
+		refillTime:
+		{
+			hours:12, ///////////
+			minuts:0
+		},
+		enableDonation:true, ///////////
+		quickAccess:'wemineit',
+		input:'input[name=address]',
+		successUrl:'^http://www\.dogefaucet\.com/what-now$', ///////////
+		successMessage:'Wow, much fun !' ///////////
+	},*/
 	'thebitcoinmaster.com':
 	{
 		url:'http://www.thebitcoinmaster.com/dogecoin/',
