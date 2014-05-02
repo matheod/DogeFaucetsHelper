@@ -44,6 +44,21 @@ FAUCETS = {
 		successUrl:'^http://(?:www\.)?cyanrainbow\.com/faucet$',
 		successMessage:'Congrats! You have claimed'
 	},
+	'dogedroppings.com':
+	{
+		url:'http://dogedroppings.com/',
+		matchUrl:'^http://dogedroppings\.com/?(?:index\.php)?$',
+		refillTime:
+		{
+			hours:24,
+			minuts:0
+		},
+		enableDonation:true,
+		quickAccess:'dogedroppings',
+		input:'input[name=dogecoin_address]',
+		successUrl:'^http://dogedroppings\.com/?(?:index\.php)?$',
+		successMessage:'Success! You have been awarded'
+	},
 	'dogefaucet.com':
 	{
 		url:'http://www.dogefaucet.com/',
@@ -74,6 +89,21 @@ FAUCETS = {
 		successUrl:'^http://www\.dogefaucet\.com/what-now$', ///////////
 		successMessage:'Wow, much fun !' ///////////
 	},*/
+	'rickyfaucet.tk':
+	{
+		url:'http://rickyfaucet.tk/',
+		matchUrl:'^http://(?:www\.)?rickyfaucet\.tk/?(?:index\.php)?$',
+		refillTime:
+		{
+			hours:24,
+			minuts:0
+		},
+		enableDonation:true,
+		quickAccess:'rickyfaucet',
+		input:'input[name=address]',
+		successUrl:'^http://(?:www\.)?rickyfaucet\.tk/?(?:index\.php)?$',
+		successMessage:'Succesfully requested more doge.'
+	},
 	'thebitcoinmaster.com':
 	{
 		url:'http://www.thebitcoinmaster.com/dogecoin/',
