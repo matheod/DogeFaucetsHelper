@@ -1,18 +1,19 @@
 FAUCETS = {
-	/*'DogeHauss.com':
+	'cryptospout.com':
 	{
-		url:'http://dogehaus.com/',
-		matchUrl:'',
+		url:'http://cryptospout.com/faucet.php?coin=DOGE',
+		matchUrl:'^http://(?:www\.)?cryptospout\.com/faucet\.php',
 		refillTime:
 		{
-			hours:6,
+			hours:24,
 			minuts:0
 		},
 		enableDonation:true,
-		quickAccess:'dogehauss',
-		successUrl:'',
-		successMessage:''
-	},*/
+		quickAccess:'cryptospout',
+		input:'#wallet',
+		successUrl:'!ajax',
+		successMessage:'You\'ve been queued to receive:'
+	},
 	'cyanrainbow.com':
 	{
 		url:'http://www.cyanrainbow.com',
@@ -31,7 +32,6 @@ FAUCETS = {
 	'dogefaucet.com':
 	{
 		url:'http://www.dogefaucet.com/',
-		// matchUrl:'^https?://(?:www\.)?dogefaucet\.com/?(?:index\.php)?$',
 		matchUrl:'^http://www\.dogefaucet\.com/?(?:index\.php)?$',
 		refillTime:
 		{
