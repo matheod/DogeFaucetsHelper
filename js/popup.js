@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			}
 			var form = document.getElementsByClassName('manageFaucet')[0];
 			var error = false;
-			if(form.faucetWallet.value.length!=34 || form.faucetWaller.value[0]!="D")
+			if(form.faucetWallet.value.length!=34 || form.faucetWallet.value[0]!="D")
 			{
 				error = true;
 				form.faucetWallet.style.background = 'yellow';
